@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "vyre3",
+    "name": "vyre",
     "slug": "vyre3",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/vyreLogo.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/images/vyre.png",
+      "resizeMode": "auto",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
@@ -20,20 +20,35 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/vyreLogo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.harveyana.vyre"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/vyreLogo.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "allow vyre to use Face ID."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "d6ecc2c7-e500-478d-9e92-fe468cf6ee76"
+      }
     }
   }
 }

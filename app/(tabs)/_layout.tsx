@@ -1,55 +1,97 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { Ionicons, Feather, FontAwesome } from '@expo/vector-icons'
 import { Link, Tabs } from 'expo-router';
-import { Pressable, useColorScheme } from 'react-native';
+import React,{ useEffect, useState } from 'react';
 
+import { Text, View, SafeAreaView } from '../../components/Themed';
+
+import tw from 'twrnc';
+import { Pressable, useColorScheme,Image} from 'react-native';
 import Colors from '../../constants/Colors';
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
+function TabBarIcon(props?: {
+  name?: React.ComponentProps<typeof Feather>['name'];
+  Ioniconame?: React.ComponentProps<typeof Ionicons>['name'];
   color: string;
+  size: number;
+  type?:string
 }) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+  if(props?.type == 'ionicons'){
+    return <Ionicons style={{ marginBottom: -3 }} name={props.Ioniconame} size={props.size} color={props.color} />;
+  }
+  return <Feather style={{ marginBottom: -3 }} {...props} />;
 }
+
+
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tabIconSelected,
+        tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].tabIconDefault,
+        headerShown:false,
+        tabBarShowLabel: false,
+        tabBarHideOnKeyboard: true,
+        tabBarStyle:{
+          position:'relative',
+          backgroundColor: Colors[colorScheme ?? 'light'].TabBar,
+          height:70          
+        }
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+          title: 'Home',
+          tabBarIcon: ({ color,focused }) => <TabBarIcon name="home" size={focused ? 23 :16} color={color} />
+        }}
+      />
+
+      <Tabs.Screen
+        name="assets"
+        options={{
+          title: 'assets',
+          tabBarIcon: ({ color,focused}) => <TabBarIcon type='ionicons' Ioniconame="ios-wallet" size={focused ? 23 :16} color={color} />,
+        }}
+      />
+
+      <Tabs.Screen
+        name="exchange"
+        options={{
+          title: 'exchange',
+          tabBarIcon: ({ color,focused}) =>( 
+            <View style={[{backgroundColor:focused ? color : '#989090'},tw`w-12 flex flex-row border-2 rounded-3xl justify-center items-center px-1 py-1`]}>
+              <Image
+                style={[{aspectRatio:1,resizeMode:'cover'},tw` w-full `]}
+                source={require('../../assets/images/peer-to-peer.png')}
+              />
+            </View>
+          
           ),
         }}
       />
+
       <Tabs.Screen
-        name="two"
+        name="profile"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'profile',
+          tabBarIcon: ({ color,focused }) => <TabBarIcon name="user" size={focused ? 23 :16} color={color} />,
         }}
       />
+      
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'settings',
+          tabBarIcon: ({ color,focused }) => <TabBarIcon name="settings" size={focused ? 23 :16} color={color} />,
+        }}
+      />
+      
     </Tabs>
   );
 }
